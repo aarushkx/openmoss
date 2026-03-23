@@ -1,0 +1,19 @@
+{
+  "name": "openmoss",
+  "version": "1.0.0",
+  "description": "A simple reimplementation of OpenClaw",
+  "license": "MIT",
+  "author": "Aarush Kumar",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}
