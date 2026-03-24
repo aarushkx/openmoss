@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
-    "node-telegram-bot-api": "^0.63.0"
+    "node-telegram-bot-api": "^0.63.0",
+    "openai": "^6.32.0"
   }
 }
