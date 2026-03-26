@@ -2,16 +2,21 @@
 This file stores facts about the user that persist across conversations.
 
 ## User Preferences
-- (empty)
+- Likes pineapple on pizza
 
 ## User Profile
-- (empty)
+- Name is Aarush
 
 ## Project Context
-- (empty)
+- The project is called Recommerce, a platform for selling pre-owned items.
 
 ## Past Decisions
-- (empty)
 
 ## Notes
-- (empty)
+
+## Task
+- 
+- Need to feed dog
+
+## reminder
+- Practice on HelloTalk after 3 hours

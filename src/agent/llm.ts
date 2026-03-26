@@ -1,6 +1,6 @@
 import OpenAI from "openai";
-import type { Message } from "../types";
 import { OPENROUTER_MODEL } from "../utils/constants.js";
+import type { IMessage } from "../types";
 
 const client = new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
@@ -11,7 +11,7 @@ const client = new OpenAI({
     },
 });
 
-export const callLLM = async (messages: Message[]): Promise<string> => {
+export const callLLM = async (messages: IMessage[]): Promise<string> => {
     const completion = await client.chat.completions.create({
         model: OPENROUTER_MODEL,
         messages,
