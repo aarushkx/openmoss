@@ -14,9 +14,11 @@ const MAX_STEPS = 8;
 const parseAgentStep = (raw: string): IAgentStep => {
     const res = raw.trim();
 
+    // think
     const think = res.match(/<think>([\s\S]*?)<\/think>/);
     if (think) return { step: "think", content: think[1]?.trim() ?? "" };
 
+    // action
     const action = res.match(/<action>([\s\S]*?)<\/action>/);
     if (action) {
         const body = action[1]?.trim();
@@ -34,9 +36,11 @@ const parseAgentStep = (raw: string): IAgentStep => {
         return { step: "think", content: `Malformed action: ${body}` };
     }
 
+    // ask_user
     const ask = res.match(/<ask_user>([\s\S]*?)<\/ask_user>/);
     if (ask) return { step: "ask_user", content: ask[1]?.trim() ?? "" };
 
+    // output
     const output = res.match(/<output>([\s\S]*?)<\/output>/);
     if (output) return { step: "output", content: output[1]?.trim() ?? "" };
 
@@ -44,8 +48,6 @@ const parseAgentStep = (raw: string): IAgentStep => {
 };
 
 export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
-    console.log(userMessage);
-
     const [agentMd, memoryMd, skillsMd, history] = await Promise.all([
         readAgentPrompt(),
         readMemory(),
