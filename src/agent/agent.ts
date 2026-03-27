@@ -8,6 +8,7 @@ import {
     historyToMessages,
 } from "../utils/history.js";
 import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
+import { readSummary } from "../utils/summary.js";
 
 const MAX_STEPS = 8;
 
@@ -48,14 +49,15 @@ const parseAgentStep = (raw: string): IAgentStep => {
 };
 
 export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
-    const [agentMd, memoryMd, skillsMd, history] = await Promise.all([
+    const [agentMd, memoryMd, skillsMd, history, summary] = await Promise.all([
         readAgentPrompt(),
         readMemory(),
         readSkills(),
         readHistory(),
+        readSummary(),
     ]);
 
-    const SYSTEM_PROMPT = getSystemPrompt(agentMd, memoryMd, skillsMd);
+    const SYSTEM_PROMPT = getSystemPrompt(agentMd, memoryMd, skillsMd, summary);
 
     const messages: IMessage[] = [
         { role: "system", content: SYSTEM_PROMPT },
