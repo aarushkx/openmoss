@@ -1,10 +1,5 @@
 import express from "express";
-import {
-    DEBUG,
-    LLM_PROVIDER,
-    OPENROUTER_MODEL,
-    API_URL,
-} from "./utils/constants.js";
+import { DEBUG, CONFIG } from "./config";
 import { startBot } from "./services/telegram.js";
 
 const app = express();
@@ -18,17 +13,20 @@ app.use(express.static("public"));
 app.get("/health", (_req, res) => {
     res.json({
         status: "ok",
-        llmProvider: LLM_PROVIDER,
-        model: OPENROUTER_MODEL,
+        llmProvider: CONFIG.llm.provider,
+        model:
+            CONFIG.llm.provider === "ollama"
+                ? CONFIG.llm.ollama.model
+                : CONFIG.llm.openrouter.model,
         debug: DEBUG,
     });
 });
 
 app.listen(PORT, () => {
     console.log(`
-🌿 OpenMoss  running on ${API_URL}
+🌿 OpenMoss  running on ${CONFIG.llm.provider}
 
-  LLM      ${LLM_PROVIDER} / ${OPENROUTER_MODEL}
+  LLM      ${CONFIG.llm.provider} / ${CONFIG.llm.provider === "ollama" ? CONFIG.llm.ollama.model : CONFIG.llm.openrouter.model}
   Debug    ${DEBUG ? "ON — AI steps will be sent to your Telegram" : "OFF"}
 `);
 

@@ -16,8 +16,6 @@ This file stores facts about the user that persist across conversations.
 
 ## Task
 - Feed dog
-- 
-- Need to feed dog
 
-## reminder
+## Reminder
 - Practice on HelloTalk after 3 hours

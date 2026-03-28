@@ -1,6 +1,6 @@
 import TelegramBot from "node-telegram-bot-api";
 import { runAgent } from "../agent/agent";
-import { DEBUG } from "../utils/constants";
+import { DEBUG } from "../config";
 
 export const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN!, {
     polling: true,
