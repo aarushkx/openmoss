@@ -7,7 +7,7 @@ export const readAgentPrompt = async (): Promise<string> => {
     return fs.readFile(path.join(DATA_DIR, "AGENT.md"), "utf-8");
 };
 
-export const readMemory = (): Promise<string> => {
+export const readMemory = async (): Promise<string> => {
     return fs.readFile(path.join(DATA_DIR, "MEMORY.md"), "utf-8");
 };
 
