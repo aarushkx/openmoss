@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-const DATA_DIR = path.join(process.cwd(), "src", "data");
+const DATA_DIR = path.join(process.cwd(), "src", ".openmoss");
 
 export const readAgentPrompt = async (): Promise<string> => {
     return fs.readFile(path.join(DATA_DIR, "AGENT.md"), "utf-8");

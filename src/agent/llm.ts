@@ -36,7 +36,5 @@ export const callLLM = async (messages: IMessage[]): Promise<string> => {
         messages,
     });
 
-    console.log(`LLM RESPONSE: ${res.choices[0]?.message.content}`);
-
     return res.choices[0]?.message.content || "";
 };

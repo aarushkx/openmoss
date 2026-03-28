@@ -4,7 +4,7 @@ These are the capabilities available to the agent.
 
 ## getDateTime
 Get the current date, time, and timezone.
-- Input: none
+- Input: `timezone` (string, optional)
 - Output: `date` (string), `time` (string), `timezone` (string)
 
 ## rememberFact
