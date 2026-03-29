@@ -1,8 +1,8 @@
 import { serve } from "inngest/express";
 import { inngest } from "./client";
-import { agentWorkflow } from "./functions";
+import { agentWorkflow, summarizerWorkflow } from "./functions";
 
 export const inngestHandler = serve({
     client: inngest,
-    functions: [agentWorkflow],
+    functions: [agentWorkflow, summarizerWorkflow],
 });

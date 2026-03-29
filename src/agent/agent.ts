@@ -5,7 +5,7 @@ import { getSystemPrompt } from "../utils/prompts.js";
 import {
     readHistory,
     appendHistory,
-    historyToMessages,
+    // historyToMessages,
 } from "../utils/history.js";
 import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
 import { readSummary } from "../utils/summary.js";
@@ -61,7 +61,7 @@ export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
 
     const messages: IMessage[] = [
         { role: "system", content: SYSTEM_PROMPT },
-        ...historyToMessages(history),
+        ...history,
         { role: "user", content: `<start>${userMessage}</start>` },
     ];
 

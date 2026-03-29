@@ -2,6 +2,7 @@
 This file stores facts about the user that persist across conversations.
 
 ## User Preferences
+- Prefers short messages
 - Likes pineapple on pizza
 
 ## User Profile
