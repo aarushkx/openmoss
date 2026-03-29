@@ -1,6 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
-import { runAgent } from "../agent/agent";
-import { DEBUG } from "../config";
+import { inngest } from "../inngest/client";
 
 export const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN!, {
     polling: true,
@@ -19,23 +18,10 @@ export const startBot = async (): Promise<void> => {
         console.log(`chatId=${chatId} | userId=${userId} | text="${text}"`);
 
         // Fire Inngest event to run the agent
-        // sendMessage(chatId, "Recieved your message");
-
-        try {
-            const result = await runAgent(text);
-            await sendMessage(chatId, result.answer);
-
-            if (DEBUG) {
-                console.log("Agent steps:", result.steps);
-            }
-        } catch (error: any) {
-            console.error("Agent error:", error?.message || "Unknown error");
-            console.error(
-                "Error metadata:",
-                error?.error?.metadata?.raw || "No metadata available",
-            );
-            await sendMessage(chatId, "Something went wrong.");
-        }
+        await inngest.send({
+            name: "telegram/message.received",
+            data: { chatId, text, messageId: msg.message_id, userId },
+        });
     });
 
     bot.on("polling_error", (err) => {

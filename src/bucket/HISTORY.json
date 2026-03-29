@@ -1,32 +1,7 @@
 [
   {
-    "role": "user",
-    "content": "Yeah can you remind me about what we just talked about?",
-    "timestamp": "2026-03-28T18:14:36.612Z"
-  },
-  {
     "role": "assistant",
-    "content": "We just talked about:\n- You asked for the current time in Madrid, and I provided it (7:12 pm) along with your local time in Asia/Calcutta (11:40 pm)\n- Reminders about your pending tasks: **feeding your dog** (needs your decision: set reminder, mark complete, or get tips) and **smuggling eggs in the hostel** (newly added)\n- Your HelloTalk language practice task is now completed ✅\n\nIs there anything specific you'd like to address next?",
-    "timestamp": "2026-03-28T18:14:43.486Z"
-  },
-  {
-    "role": "user",
-    "content": "Yeah what time is it again in Madrid right now?",
-    "timestamp": "2026-03-28T18:15:18.513Z"
-  },
-  {
-    "role": "assistant",
-    "content": "The current time in Madrid is **7:15 pm** on Saturday, 28 March 2026.",
-    "timestamp": "2026-03-28T18:15:40.233Z"
-  },
-  {
-    "role": "user",
-    "content": "What time is it in Istanbul?",
-    "timestamp": "2026-03-28T18:21:39.381Z"
-  },
-  {
-    "role": "assistant",
-    "content": "The current time in Istanbul is **9:21 pm** on Saturday, 28 March 2026.",
-    "timestamp": "2026-03-28T18:21:47.981Z"
+    "content": "What would you like to continue? We have pending tasks: feed your dog, smuggle eggs, and HelloTalk practice. Or we can discuss anything else.",
+    "timestamp": "2026-03-29T08:35:47.981Z"
   }
 ]
