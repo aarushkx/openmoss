@@ -27,3 +27,7 @@ dist-ssr
 .env
 .env.test
 .env.production
+
+# bucket files
+/src/bucket/*
+!/src/bucket/.gitkeep

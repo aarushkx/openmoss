@@ -21,4 +21,5 @@ This file stores facts about the user that persist across conversations.
 - Smuggle some eggs in the hostel
 
 ## Reminder
+- User has to buy groceries tomorrow
 - Practice on HelloTalk after 3 hours

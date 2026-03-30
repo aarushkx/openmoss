@@ -30,7 +30,7 @@ export const CONFIG: IConfig = {
             baseUrl: process.env.OPENROUTER_BASE_URL!,
         },
         ollama: {
-            model: "llama3.2:1b",
+            model: "llama3.1:8b",
             baseUrl: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
         },
     },

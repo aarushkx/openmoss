@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import type { IHistoryEntry } from "../types";
 
+const BUCKET_DIR = path.join(process.cwd(), "src", "bucket");
 const HISTORY_FILE = path.join(process.cwd(), "src", "bucket", "HISTORY.json");
 
 export const readHistory = async (): Promise<IHistoryEntry[]> => {
@@ -17,6 +18,7 @@ export const appendHistory = async (
     role: "user" | "assistant",
     content: string,
 ) => {
+    await fs.mkdir(BUCKET_DIR, { recursive: true });
     const history = await readHistory();
     history.push({ role, content, timestamp: new Date().toISOString() });
     await fs.writeFile(HISTORY_FILE, JSON.stringify(history, null, 2), "utf-8");

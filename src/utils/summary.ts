@@ -13,6 +13,7 @@ export const readSummary = async (): Promise<string> => {
 };
 
 export const writeSummary = async (summary: string): Promise<void> => {
+    await fs.mkdir(BUCKET_DIR, { recursive: true });
     await fs.writeFile(SUMMARY_FILE, summary, "utf-8");
     console.log("\n---------- Summary updated ----------\n");
 };
