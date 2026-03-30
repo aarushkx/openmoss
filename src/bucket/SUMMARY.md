@@ -1,14 +1,13 @@
 # User Summary
+
 ## Key Facts
-* Name: Aarush  
-* Preferences: Direct, concise answers  
-* Timezone: Kolkata (IST)  
-* Reminder capability: Can set one‑time reminders  
-
+* Name: Aarush
+* Timezone: Kolkata (IST)
+* Reminder capability: One-time reminders are set, recurring reminders are not possible
 ## Pending Tasks
-* Feed dog  * Smuggle hostel eggs  
-* Set recurring car‑wash reminder (requires external timer/workaround)  
-
+* Feed dog
+* Smuggle hostel eggs
+* Set recurring car-wash reminder (requires external timer/workaround)
 ## Notes
-* Earlier note said reminders required recurring schedules; recent interactions show the assistant can create one‑time alerts (hand‑washing, watering plants, class reminder).  
-* All prior reminders have likely expired; the class reminder was set for 1 minute and should have been triggered.  * User still desires a recurring car‑wash reminder, which the assistant cannot provide directly; an external timer or workaround is needed.
+* User desires a recurring car-wash reminder, which assistant cannot provide directly
+* User wants to study physics and biology, but assistant's reminder limit is reached after 1-minute class reminder

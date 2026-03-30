@@ -1,12 +1,14 @@
 import { getDateTime } from "./datetime.js";
 import { rememberFact } from "./memory.js";
 import { scheduleTask } from "./schedule.js";
+import { getWeather } from "./weather.js";
 
 // Record<key = tool_name (string), value = tool (function)>
 // Each value must be a function that takes an input
 // and returns either a Promise (async tool) or a normal value (sync tool)
 export const TOOLS: Record<string, (input: any) => Promise<any> | any> = {
     getDateTime,
+    getWeather,
     rememberFact,
     scheduleTask,
 };

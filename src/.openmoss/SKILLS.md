@@ -7,6 +7,12 @@ Get the current date, time, and timezone.
 - Input: `timezone` (string, optional)
 - Output: `date` (string), `time` (string), `timezone` (string)
 
+## getWeather
+Get the current weather information for a specific city.
+- Input: `city` (string — the name of the city, e.g., "Ranchi" or "London")
+- Output: `city` (string), `region` (string), `country` (string), `temp_c` (number), `temp_f` (number), `condition` (string)
+- Note: If the API returns an error, the output will contain the error details provided by the weather service.
+
 ## rememberFact
 Save a persistent fact to memory under a given category.
 - Input: `category` (string), `fact` (string)
