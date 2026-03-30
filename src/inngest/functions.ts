@@ -17,26 +17,21 @@ export const agentWorkflow: any = inngest.createFunction(
 
         console.log(`\nInngest workflow started...\n`);
 
-        // Run the agent
         const result = await step.run("run-agent", async () => {
-            return runAgent(text);
+            return runAgent(text, chatId);
         });
 
-        // Send the reply to Telegram
         await step.run("send-telegram-reply", async () => {
             console.log(`\nSending reply to chatId=${chatId}...\n`);
             await sendMessage(chatId, result.answer);
         });
 
-        // Trigger Maintenance (Summarizer)
         await step.sendEvent("check-history-maintenance", {
             name: "history/maintenance.check",
             data: { chatId },
         });
 
-        console.log(
-            `\nWorkflow done - ${result.steps.length} steps, isUserInputRequired=${result.isUserInputRequired}\n`,
-        );
+        console.log(`\nWorkflow done - ${result.steps.length} steps\n`);
         return { success: true, stepsCount: result.steps.length };
     },
 );
@@ -50,8 +45,9 @@ export const summarizerWorkflow: any = inngest.createFunction(
     async ({ step }) => {
         await step.run("summarize-if-needed", async () => {
             const history = await readHistory();
-            if (history.length >= 10) {
-                // Your MAX_HISTORY
+
+            const MAX_HISTORY = 10;
+            if (history.length >= MAX_HISTORY) {
                 const existingSummary = await readSummary();
                 const messages = [
                     {
@@ -67,5 +63,21 @@ export const summarizerWorkflow: any = inngest.createFunction(
             }
             return "No summary needed";
         });
+    },
+);
+
+export const reminderWorkflow: any = inngest.createFunction(
+    {
+        id: "reminder-workflow",
+        name: "Scheduler: Schedule Task Reminder",
+        triggers: { event: "scheduler/reminder.scheduled" },
+    },
+    async ({ event, step }) => {
+        const { chatId, task, remindAt, label } = event.data;
+        await step.sleep("wait-until-reminder-time", remindAt);
+        await step.run("send-reminder", async () => {
+            await sendMessage(chatId, `⏰ *REMINDER — ${label}*\n\n${task}`);
+        });
+        return { success: true, label };
     },
 );

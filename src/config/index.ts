@@ -23,16 +23,16 @@ export const CONFIG: IConfig = {
         apiUrl: process.env.API_URL!,
     },
     llm: {
-        provider: "openrouter",
+        provider: "openrouter", // "openrouter" or "ollama"
 
         openrouter: {
-            model: "stepfun/step-3.5-flash:free",
+            model: "nvidia/nemotron-3-super-120b-a12b:free",
             apiKey: process.env.OPENROUTER_API_KEY!,
             baseUrl: process.env.OPENROUTER_BASE_URL!,
         },
 
         ollama: {
-            model: "mistral",
+            model: "llama3.2:1b",
             baseUrl: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
         },
     },

@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import type { IMessage } from "../types";
 import { CONFIG } from "../config";
 
-const provider = process.env.LLM_PROVIDER;
+const provider = CONFIG.llm.provider;
 
 // OpenRouter client
 const openrouter = new OpenAI({
@@ -23,7 +23,7 @@ const ollama = new OpenAI({
 export const callLLM = async (messages: IMessage[]): Promise<string> => {
     if (provider === "ollama") {
         const res = await ollama.chat.completions.create({
-            model: process.env.OLLAMA_MODEL!,
+            model: CONFIG.llm.ollama.model,
             messages,
         });
 

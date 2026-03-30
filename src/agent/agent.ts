@@ -1,16 +1,12 @@
 import { callLLM } from "./llm.js";
-import { callTool } from "../tools/index.js";
+import { callTool } from "../tools";
 import { readAgentPrompt, readMemory, readSkills } from "../utils/files.js";
 import { getSystemPrompt } from "../utils/prompts.js";
-import {
-    readHistory,
-    appendHistory,
-    // historyToMessages,
-} from "../utils/history.js";
-import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
+import { readHistory, appendHistory } from "../utils/history.js";
 import { readSummary } from "../utils/summary.js";
+import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
 
-const MAX_STEPS = 8;
+const MAX_STEPS = 4;
 
 const parseAgentStep = (raw: string): IAgentStep => {
     const res = raw.trim();
@@ -48,7 +44,10 @@ const parseAgentStep = (raw: string): IAgentStep => {
     return { step: "think", content: res };
 };
 
-export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
+export const runAgent = async (
+    userMessage: string,
+    chatId: number,
+): Promise<IAgentOutput> => {
     const [agentMd, memoryMd, skillsMd, history, summary] = await Promise.all([
         readAgentPrompt(),
         readMemory(),
@@ -89,10 +88,8 @@ export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
                     `\n<action>\n${parsed.tool}(${JSON.stringify(parsed.input)})\n</action>\n`,
                 );
 
-                const toolResult = await callTool(
-                    parsed.tool!,
-                    parsed.input ?? {},
-                );
+                const toolInput = { chatId, ...(parsed.input ?? {}) };
+                const toolResult = await callTool(parsed.tool!, toolInput);
 
                 console.log(`\n<observe>\n${toolResult}\n</observe>\n`);
 
@@ -138,7 +135,7 @@ export const runAgent = async (userMessage: string): Promise<IAgentOutput> => {
     }
 
     return {
-        answer: "I hit my thinking limit. Please try a simpler request.",
+        answer: "Sorry, I hit my thinking limit. Please try a simpler request.",
         steps,
         isUserInputRequired: false,
     };

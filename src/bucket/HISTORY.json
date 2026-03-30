@@ -1,12 +1,37 @@
 [
   {
+    "role": "assistant",
+    "content": "Reminder set:I'll remind you to study physics in 1 minute.",
+    "timestamp": "2026-03-30T06:53:05.535Z"
+  },
+  {
     "role": "user",
-    "content": "Nope",
-    "timestamp": "2026-03-29T09:37:01.768Z"
+    "content": "How are you today?",
+    "timestamp": "2026-03-30T06:53:17.027Z"
   },
   {
     "role": "assistant",
-    "content": "Understood. Dog feeding and egg smuggling are pending. Let me know which you'd like to address, or if you need reminders.",
-    "timestamp": "2026-03-29T09:37:25.190Z"
+    "content": "Pending tasks: feed dog, smuggle hostel eggs. Set reminders for either?",
+    "timestamp": "2026-03-30T06:54:03.299Z"
+  },
+  {
+    "role": "user",
+    "content": "You didn't set the reminder",
+    "timestamp": "2026-03-30T06:54:31.730Z"
+  },
+  {
+    "role": "user",
+    "content": "Set reminder to study biology after 1 min",
+    "timestamp": "2026-03-30T06:56:56.186Z"
+  },
+  {
+    "role": "user",
+    "content": "How are you doing? Just respond to me without thinking",
+    "timestamp": "2026-03-30T06:58:03.395Z"
+  },
+  {
+    "role": "assistant",
+    "content": "Current time is12:29 pm on Monday, 30 March 2026 IST. Let me know if you'd like to set another reminder or need anything else.",
+    "timestamp": "2026-03-30T06:59:40.707Z"
   }
 ]

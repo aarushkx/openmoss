@@ -6,6 +6,7 @@ This file stores facts about the user that persist across conversations.
 - Likes pineapple on pizza
 
 ## User Profile
+- Aarush is a college student
 - Name is Aarush
 
 ## Project Context
