@@ -1,6 +1,7 @@
 import { getDateTime } from "./datetime.js";
-import { rememberFact } from "./memory.js";
+import { rememberFact, searchMemory } from "./memory.js";
 import { scheduleTask } from "./schedule.js";
+import { getAvailableSkills } from "./skills.js";
 import { getWeather } from "./weather.js";
 
 // Record<key = tool_name (string), value = tool (function)>
@@ -11,6 +12,8 @@ export const TOOLS: Record<string, (input: any) => Promise<any> | any> = {
     getWeather,
     rememberFact,
     scheduleTask,
+    getAvailableSkills,
+    searchMemory,
 };
 
 // Call a tool by name with a given input object

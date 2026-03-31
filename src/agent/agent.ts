@@ -1,12 +1,12 @@
 import { callLLM } from "./llm.js";
 import { callTool } from "../tools";
-import { readAgentPrompt, readMemory, readSkills } from "../utils/files.js";
+import { readAgentPrompt } from "../utils/files.js";
 import { getSystemPrompt } from "../utils/prompts.js";
 import { readHistory, appendHistory } from "../utils/history.js";
 import { readSummary } from "../utils/summary.js";
 import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
 
-const MAX_STEPS = 8;
+const MAX_STEPS = 10;
 
 const parseAgentStep = (raw: string): IAgentStep => {
     const res = raw.trim();
@@ -45,15 +45,13 @@ export const runAgent = async (
     userMessage: string,
     chatId: number,
 ): Promise<IAgentOutput> => {
-    const [agentMd, memoryMd, skillsMd, history, summary] = await Promise.all([
+    const [agentMd, history, summary] = await Promise.all([
         readAgentPrompt(),
-        readMemory(),
-        readSkills(),
         readHistory(),
         readSummary(),
     ]);
 
-    const SYSTEM_PROMPT = getSystemPrompt(agentMd, memoryMd, skillsMd, summary);
+    const SYSTEM_PROMPT = getSystemPrompt(agentMd, summary);
 
     const messages: IMessage[] = [
         { role: "system", content: SYSTEM_PROMPT },

@@ -1,23 +1,10 @@
-export const getSystemPrompt = (
-    agentMd: string,
-    memoryMd: string,
-    skillsMd: string,
-    summary: string,
-): string =>
+export const getSystemPrompt = (agentMd: string, summary: string): string =>
     `
 ${agentMd}
 
 ---
 ## Previous Conversation Summary
 ${summary}
-
----
-## Your Long-term Memory
-${memoryMd}
-
----
-## Available Tools
-${skillsMd}
 
 ---
 ## Interaction Format
@@ -29,12 +16,31 @@ You respond using exactly ONE of the following XML tags per turn:
 
 After an <action>, you will see an <observe> tag containing the result.
 
+---
+## Tool-Based Knowledge
+To keep your context focused and fast, your full memory and skill-set are accessed via tools:
+- **To remember/recall user info:** Call <action>searchMemory({"query": "..."})</action>
+- **To see what tasks you can perform:** Call <action>getAvailableSkills({})</action>
+- **To save new info:** Call <action>rememberFact({"category": "...", "fact": "..."})</action>
+
+---
+## PROTOCOLS
+### TOOL DISCOVERY PROTOCOL
+- You have access to tools, but their exact parameters are not in your permanent memory.
+- IF (and only if) you are unsure of a tool's parameters or if a tool call fails, call <action>getAvailableSkills({})</action>.
+- If you have already called getAvailableSkills in the current conversation thread, use that information instead of calling it again.
+
+### MEMORY PROTOCOL
+- If the user asks a personal question, call <action>searchMemory({"query": "..."})</action>.
+
+---
 ## Multi-Step Logic
 - If a task requires multiple steps, execute them in a linear sequence.
 - Do not try to do everything in one tool if two different tools are required.
 - Use the result from the first <observe> to inform your next <action>.
 - Example: If asked to "save a note and then schedule a reminder," first call <action>rememberFact(...)</action>, then after observing the success, call <action>scheduleTask(...)</action>.
 
+---
 ## Rules
 - Respond directly. Do not explain your internal reasoning.
 - Use <output> only when you have the final answer.

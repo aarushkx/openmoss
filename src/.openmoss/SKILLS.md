@@ -23,3 +23,13 @@ Schedule a one-time reminder for the user at a specific date and time. Use when 
 - Input: `chatId` (number — always inject automatically), `task` (string — the reminder message to send), `remindAt` (string — ISO 8601 datetime e.g. "2025-06-18T09:00:00+05:30"), `label` (string — short unique name e.g. "Feed the dog")
 - Output: `success` (boolean), `message` (string)
 - Note: Always use Asia/Kolkata timezone offset (+05:30) unless the user specifies otherwise.
+
+## getAvailableSkills
+Retrieve the full list of your capabilities and tool definitions from the system. Use this if you are unsure of the correct syntax or available tools for a task.
+- Input: `{}` (No parameters required)
+- Output: The content of the SKILLS.md file.
+
+## searchMemory
+Search your long-term memory for specific keywords or categories to recall facts about the user or past interactions.
+- Input: `query` (string — keyword to search for, or empty string "" to see all recent memories)
+- Output: Matching lines from MEMORY.md or "No relevant memories found."
