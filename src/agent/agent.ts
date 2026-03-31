@@ -6,14 +6,10 @@ import { readHistory, appendHistory } from "../utils/history.js";
 import { readSummary } from "../utils/summary.js";
 import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
 
-const MAX_STEPS = 4;
+const MAX_STEPS = 8;
 
 const parseAgentStep = (raw: string): IAgentStep => {
     const res = raw.trim();
-
-    // think
-    const think = res.match(/<think>([\s\S]*?)<\/think>/);
-    if (think) return { step: "think", content: think[1]?.trim() ?? "" };
 
     // action
     const action = res.match(/<action>([\s\S]*?)<\/action>/);
@@ -30,7 +26,6 @@ const parseAgentStep = (raw: string): IAgentStep => {
             }
             return { step: "action", tool, input };
         }
-        return { step: "think", content: `Malformed action: ${body}` };
     }
 
     // ask_user
@@ -41,7 +36,9 @@ const parseAgentStep = (raw: string): IAgentStep => {
     const output = res.match(/<output>([\s\S]*?)<\/output>/);
     if (output) return { step: "output", content: output[1]?.trim() ?? "" };
 
-    return { step: "think", content: res };
+    // fallback - treat as output and clean the tags
+    const cleanText = res.replace(/<[^>]*>?/gm, "").trim();
+    return { step: "output", content: cleanText };
 };
 
 export const runAgent = async (
@@ -66,7 +63,6 @@ export const runAgent = async (
 
     // Save the user message to history
     await appendHistory("user", userMessage);
-
     const steps: IAgentStep[] = [];
 
     for (let i = 0; i < MAX_STEPS; i++) {
@@ -77,12 +73,6 @@ export const runAgent = async (
         messages.push({ role: "assistant", content: rawResponse });
 
         switch (parsed.step) {
-            case "think": {
-                console.log(`\n<think>\n${parsed.content}\n</think>\n`);
-                messages.push({ role: "user", content: "Continue." });
-                break;
-            }
-
             case "action": {
                 console.log(
                     `\n<action>\n${parsed.tool}(${JSON.stringify(parsed.input)})\n</action>\n`,
@@ -94,12 +84,10 @@ export const runAgent = async (
                 console.log(`\n<observe>\n${toolResult}\n</observe>\n`);
 
                 steps.push({ step: "observe", content: toolResult });
-
                 messages.push({
                     role: "user",
                     content: `<observe>${toolResult}</observe>`,
                 });
-
                 break;
             }
 
@@ -107,7 +95,6 @@ export const runAgent = async (
                 console.log(`\n<ask_user>\n${parsed.content}\n</ask_user>\n`);
 
                 await appendHistory("assistant", parsed.content ?? "");
-
                 return {
                     answer: parsed.content ?? "I need more info.",
                     steps,
@@ -119,7 +106,6 @@ export const runAgent = async (
                 console.log(`\n<output>\n${parsed.content}\n</output>\n`);
 
                 await appendHistory("assistant", parsed.content ?? "");
-
                 return {
                     answer: parsed.content ?? "Done.",
                     steps,
@@ -128,7 +114,7 @@ export const runAgent = async (
             }
 
             default: {
-                console.log(`Unknown step:\n${parsed.step}`);
+                console.log(`\n<unknown>\n${rawResponse}\n</unknown>\n`);
                 break;
             }
         }

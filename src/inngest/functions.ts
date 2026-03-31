@@ -22,7 +22,7 @@ export const agentWorkflow: any = inngest.createFunction(
         });
 
         await step.run("send-telegram-reply", async () => {
-            console.log(`\nSending reply to chatId=${chatId}...\n`);
+            console.log(`\nSending reply...\n`);
             await sendMessage(chatId, result.answer);
         });
 

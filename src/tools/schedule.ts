@@ -14,10 +14,19 @@ export const scheduleTask = async ({
     label,
 }: ScheduleInput) => {
     const date = new Date(remindAt);
+    const now = new Date();
+
     if (isNaN(date.getTime())) {
         return {
             success: false,
             message: `Invalid remindAt value: "${remindAt}". Use ISO 8601 format e.g. "2025-06-18T09:00:00+05:30"`,
+        };
+    }
+
+    if (date <= now) {
+        return {
+            success: false,
+            message: `The time ${remindAt} has already passed. Please specify a future time.`,
         };
     }
 
