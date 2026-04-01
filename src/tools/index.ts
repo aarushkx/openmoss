@@ -1,4 +1,5 @@
 import { getDateTime } from "./datetime.js";
+import { sendEmail } from "./email.js";
 import { rememberFact, searchMemory } from "./memory.js";
 import { scheduleTask } from "./schedule.js";
 import { getAvailableSkills } from "./skills.js";
@@ -14,6 +15,7 @@ export const TOOLS: Record<string, (input: any) => Promise<any> | any> = {
     scheduleTask,
     getAvailableSkills,
     searchMemory,
+    sendEmail,
 };
 
 // Call a tool by name with a given input object

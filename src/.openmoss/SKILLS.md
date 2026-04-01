@@ -33,3 +33,9 @@ Retrieve the full list of your capabilities and tool definitions from the system
 Search your long-term memory for specific keywords or categories to recall facts about the user or past interactions.
 - Input: `query` (string — keyword to search for, or empty string "" to see all recent memories)
 - Output: Matching lines from MEMORY.md or "No relevant memories found."
+
+## sendEmail
+Send an email to a specified recipient using the Resend service.
+- Input: `to` (string — recipient email address), `subject` (string — subject line), `body` (string — the main message text)
+- Output: `success` (boolean), `messageId` (string)
+- Note: Only use this if the user explicitly asks to "email" or "send a message to [email address]".
