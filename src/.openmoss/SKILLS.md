@@ -39,3 +39,12 @@ Send an email to a specified recipient using the Resend service.
 - Input: `to` (string — recipient email address), `subject` (string — subject line), `body` (string — the main message text)
 - Output: `success` (boolean), `messageId` (string)
 - Note: Only use this if the user explicitly asks to "email" or "send a message to [email address]".
+
+## processMedia
+Execute raw FFmpeg commands on a user's media file.
+- Input: 
+    - `fileId` (string — from user message)
+    - `commandString` (string — the flags/filters ONLY. Do NOT include 'ffmpeg' or '-i'. Example: "-vf scale=1280:-1 -c:v libx264 -crf 23")
+    - `outputExt` (string — e.g., "mp4", "mp3", "gif", "wav")
+- Output: `success` (boolean), `path` (string)
+- Note: You are responsible for writing valid FFmpeg syntax. Use this for complex tasks like overlays, custom encoding, or rare formats.

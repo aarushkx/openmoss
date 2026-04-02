@@ -13,12 +13,12 @@ export const agentWorkflow: any = inngest.createFunction(
         triggers: { event: "telegram/message.received" },
     },
     async ({ event, step }) => {
-        const { chatId, text } = event.data;
+        const { chatId, text, media } = event.data;
 
         console.log(`\nInngest workflow started...\n`);
 
         const result = await step.run("run-agent", async () => {
-            return runAgent(text, chatId);
+            return await runAgent(text, chatId, media);
         });
 
         await step.run("send-telegram-reply", async () => {

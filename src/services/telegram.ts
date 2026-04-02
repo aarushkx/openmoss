@@ -9,18 +9,32 @@ export const startBot = async (): Promise<void> => {
     console.log("Bot started - polling for messages...");
 
     bot.on("message", async (msg) => {
-        if (!msg.text) return; // TODO: handle non-text data later
-
         const chatId = msg.chat.id;
-        const text = msg.text;
         const userId = msg.from?.id;
 
-        console.log(`chatId=${chatId} | userId=${userId} | text="${text}"`);
+        const text = msg.text;
+        const caption = msg.caption;
+        const photo = msg.photo ? msg.photo[msg.photo.length - 1] : null;
+        const video = msg.video || null;
+        const document = msg.document || null;
 
-        // Fire Inngest event to run the agent
+        const media = photo || video || document;
+
         await inngest.send({
             name: "telegram/message.received",
-            data: { chatId, text, messageId: msg.message_id, userId },
+            data: {
+                chatId,
+                text: text || caption || "",
+                messageId: msg.message_id,
+                userId,
+                media: media
+                    ? {
+                          fileId: media.file_id,
+                          type: photo ? "photo" : video ? "video" : "document",
+                          fileName: msg.document?.file_name || "media",
+                      }
+                    : null,
+            },
         });
     });
 

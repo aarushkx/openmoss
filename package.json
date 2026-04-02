@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/fluent-ffmpeg": "^2.1.28",
     "@types/node": "^25.5.0",
     "@types/node-telegram-bot-api": "^0.64.14",
     "tsx": "^4.21.0",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "fluent-ffmpeg": "^2.1.3",
     "inngest": "^4.1.0",
     "node-telegram-bot-api": "^0.63.0",
     "openai": "^6.32.0",

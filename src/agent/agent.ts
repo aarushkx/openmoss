@@ -4,6 +4,7 @@ import { readAgentPrompt } from "../utils/files.js";
 import { getSystemPrompt } from "../utils/prompts.js";
 import { readHistory, appendHistory } from "../utils/history.js";
 import { readSummary } from "../utils/summary.js";
+import { handleMediaResponse } from "../utils/media-handler.js";
 import type { IAgentOutput, IAgentStep, IMessage } from "../types/index.js";
 
 const MAX_STEPS = 10;
@@ -44,6 +45,7 @@ const parseAgentStep = (raw: string): IAgentStep => {
 export const runAgent = async (
     userMessage: string,
     chatId: number,
+    media?: { fileId: string; type: string },
 ): Promise<IAgentOutput> => {
     const [agentMd, history, summary] = await Promise.all([
         readAgentPrompt(),
@@ -53,10 +55,17 @@ export const runAgent = async (
 
     const SYSTEM_PROMPT = getSystemPrompt(agentMd, summary);
 
+    const mediaContext = media
+        ? `\n[MEDIA_ATTACHED: ${media.type} | fileId: ${media.fileId}]`
+        : "";
+
     const messages: IMessage[] = [
         { role: "system", content: SYSTEM_PROMPT },
         ...history,
-        { role: "user", content: `<start>${userMessage}</start>` },
+        {
+            role: "user",
+            content: `<start>${userMessage}${mediaContext}</start>`,
+        },
     ];
 
     // Save the user message to history
@@ -72,19 +81,27 @@ export const runAgent = async (
 
         switch (parsed.step) {
             case "action": {
-                console.log(
-                    `\n<action>\n${parsed.tool}(${JSON.stringify(parsed.input)})\n</action>\n`,
-                );
-
                 const toolInput = { chatId, ...(parsed.input ?? {}) };
-                const toolResult = await callTool(parsed.tool!, toolInput);
+                const toolResultRaw = await callTool(parsed.tool!, toolInput);
 
-                console.log(`\n<observe>\n${toolResult}\n</observe>\n`);
+                let observationContent = toolResultRaw;
 
-                steps.push({ step: "observe", content: toolResult });
+                if (parsed.tool === "processMedia") {
+                    const mediaStatus = await handleMediaResponse(
+                        chatId,
+                        toolResultRaw,
+                    );
+                    if (mediaStatus) {
+                        observationContent = mediaStatus;
+                    }
+                }
+
+                console.log(`\n<observe>\n${observationContent}\n</observe>\n`);
+
+                steps.push({ step: "observe", content: observationContent });
                 messages.push({
                     role: "user",
-                    content: `<observe>${toolResult}</observe>`,
+                    content: `<observe>${observationContent}</observe>`,
                 });
                 break;
             }

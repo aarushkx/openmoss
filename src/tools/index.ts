@@ -1,5 +1,6 @@
 import { getDateTime } from "./datetime.js";
 import { sendEmail } from "./email.js";
+import { processMedia } from "./media.js";
 import { rememberFact, searchMemory } from "./memory.js";
 import { scheduleTask } from "./schedule.js";
 import { getAvailableSkills } from "./skills.js";
@@ -16,6 +17,7 @@ export const TOOLS: Record<string, (input: any) => Promise<any> | any> = {
     getAvailableSkills,
     searchMemory,
     sendEmail,
+    processMedia,
 };
 
 // Call a tool by name with a given input object
@@ -29,6 +31,9 @@ export const callTool = async (name: string, input: any): Promise<string> => {
         const result = await tool(input);
         return JSON.stringify(result);
     } catch (error: any) {
-        return `Error calling ${name}: ${error.message}`;
+        return JSON.stringify({
+            success: false,
+            error: `Error calling ${name}: ${error.message}`,
+        });
     }
 };
