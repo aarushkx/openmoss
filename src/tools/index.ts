@@ -2,6 +2,7 @@ import { getDateTime } from "./datetime.js";
 import { sendEmail } from "./email.js";
 import { processMedia } from "./media.js";
 import { rememberFact, searchMemory } from "./memory.js";
+import { generateQR } from "./qr.js";
 import { scheduleTask } from "./schedule.js";
 import { getAvailableSkills } from "./skills.js";
 import { getWeather } from "./weather.js";
@@ -18,6 +19,7 @@ export const TOOLS: Record<string, (input: any) => Promise<any> | any> = {
     searchMemory,
     sendEmail,
     processMedia,
+    generateQR,
 };
 
 // Call a tool by name with a given input object

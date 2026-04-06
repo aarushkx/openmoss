@@ -48,3 +48,11 @@ Execute raw FFmpeg commands on a user's media file.
     - `outputExt` (string — e.g., "mp4", "mp3", "gif", "wav")
 - Output: `success` (boolean), `path` (string)
 - Note: You are responsible for writing valid FFmpeg syntax. Use this for complex tasks like overlays, custom encoding, or rare formats.
+
+## generateQR
+Generate a high-quality QR code image from text or a URL.
+- Input: 
+    - `text` (string — the URL or text to encode)
+    - `fileName` (string, optional — custom name for the file)
+- Output: `success` (boolean), `path` (string)
+- Note: Use this whenever a user asks to "make a QR" or "convert this link to a QR code."
