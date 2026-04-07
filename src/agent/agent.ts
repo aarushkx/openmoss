@@ -86,7 +86,7 @@ export const runAgent = async (
 
                 let observationContent = toolResultRaw;
 
-                if (parsed.tool === "processMedia") {
+                if (parsed.tool === "processMedia" || parsed.tool === "generateQR") {
                     const mediaStatus = await handleMediaResponse(
                         chatId,
                         toolResultRaw,
