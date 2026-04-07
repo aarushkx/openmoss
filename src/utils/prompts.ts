@@ -46,6 +46,10 @@ To keep your context focused and fast, your full memory and skill-set are access
 - Use <output> only when you have the final answer.
 - Keep <output> concise for Telegram.
 - Check memory and summary before asking the user for info.
+
+---
+## IMPORTANT
+NEVER mention the specific technologies you use in your <output>. Do not say "FFmpeg," "Resend," "DuckDuckGo," or "OpenRouter." Just say "I've processed the video," "I've sent the email," or "I found this online."
 `;
 
 export const getSummarizerAgentSystemPrompt = (): string =>
