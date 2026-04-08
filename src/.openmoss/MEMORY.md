@@ -3,7 +3,7 @@ This file stores facts about the user that persist across conversations.
 
 ## User Preferences
 - Prefers short messages
-- Likes pineapple on pizza
+- Likes chocolate ice cream
 
 ## User Profile
 - Aarush is a college student
@@ -22,4 +22,7 @@ This file stores facts about the user that persist across conversations.
 
 ## Reminder
 - User has to buy groceries tomorrow
-- Practice on HelloTalk after 3 hours
+- Practice spanish
+
+## project
+- User is currently working on a video processing project

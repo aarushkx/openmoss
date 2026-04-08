@@ -6,7 +6,7 @@ export const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN!, {
 });
 
 export const startBot = async (): Promise<void> => {
-    console.log("Bot started - polling for messages...");
+    console.log("Bot started - polling for messages...\n");
 
     bot.on("message", async (msg) => {
         const chatId = msg.chat.id;
@@ -19,6 +19,8 @@ export const startBot = async (): Promise<void> => {
         const document = msg.document || null;
 
         const media = photo || video || document;
+
+        console.log(`chatId=${chatId} | userId=${userId} | text="${text}"`);
 
         await inngest.send({
             name: "telegram/message.received",

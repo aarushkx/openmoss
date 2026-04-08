@@ -15,6 +15,14 @@ export const rememberFact = async (input: RememberFactInput) => {
     return { success: true, message: "Fact added to MEMORY.md" };
 };
 
+export const readFullMemory = async () => {
+    const memory = await readMemory();
+    if (!memory || memory.trim().length === 0) {
+        return "The long-term memory is currently empty";
+    }
+    return memory;
+};
+
 export const searchMemory = async ({ query }: SearchMemoryInput) => {
     const memory = await readMemory();
     // TODO: integrate vector search
