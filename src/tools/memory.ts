@@ -1,4 +1,8 @@
 import { addToMemory, readMemory } from "../utils/files";
+import { Document } from "@langchain/core/documents";
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { MemoryVectorStore } from "@langchain/classic/vectorstores/memory";
+import { OllamaEmbeddings } from "@langchain/ollama";
 
 interface RememberFactInput {
     category: string;
@@ -24,14 +28,41 @@ export const readFullMemory = async () => {
 };
 
 export const searchMemory = async ({ query }: SearchMemoryInput) => {
-    const memory = await readMemory();
-    // TODO: integrate vector search
-    const relevantFacts = memory
-        .split("\n")
-        .filter(
-            (line) =>
-                line.toLowerCase().includes(query.toLowerCase()) ||
-                line.startsWith("##"),
-        );
-    return relevantFacts.join("\n") || "No matching memories found.";
+    const memoryText = await readMemory();
+
+    if (!memoryText || memoryText.trim().length === 0) {
+        return "No memories stored";
+    }
+
+    const docs = [
+        new Document({
+            pageContent: memoryText,
+        }),
+    ];
+
+    const splitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 400,
+        chunkOverlap: 50,
+    });
+
+    const splitDocs = await splitter.splitDocuments(docs);
+
+    const embeddings = new OllamaEmbeddings({
+        model: "nomic-embed-text",
+    });
+
+    const vectorStore = await MemoryVectorStore.fromDocuments(
+        splitDocs,
+        embeddings,
+    );
+
+    const retriever = vectorStore.asRetriever({ k: 5 });
+
+    const results = await retriever.invoke(query);
+
+    if (!results.length) {
+        return "No matching memories found";
+    }
+
+    return results.map((doc) => doc.pageContent).join("\n\n");
 };
